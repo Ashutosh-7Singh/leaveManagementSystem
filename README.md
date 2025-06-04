@@ -1,99 +1,73 @@
-✅ Method 1: Using "Copy Code" Button (Recommended)
-Hover your mouse over the code block below.
+# Leave Management System – Microservices-Based Setup
 
-Click the "Copy" icon (📋) that appears in the top-right corner of the block.
+This project is a **microservices-based Leave Management System** built using **Node.js**, **Express**, and **MongoDB**. It consists of two primary backend services and one frontend:
 
-Paste it into your README.md file using any text editor or IDE (e.g., VS Code).
-
-markdown
-Copy
-Edit
-# Leave Management System
-
-This project is a simple Leave Management System with two backend microservices and a frontend built using React. It supports user registration, login, and leave tracking functionality.
+- `auth-service`: Handles user authentication (login).
+- `registration-service`: Handles user registration.
+- Frontend (React-based UI): Interfaces with both services.
 
 ---
 
-## 📁 Project Structure
+## 🔧 Prerequisites
 
-leaveManagementSystem/
-├── auth-service/ # Handles user login & authentication
-├── registration-service/ # Handles user registration
-├── frontend/ # React-based frontend (inside registration-service folder)
+Ensure you have the following installed:
 
-yaml
-Copy
-Edit
+- Node.js (v16 or above recommended)
+- MongoDB (running locally on `mongodb://localhost:27017`)
+- npm (Node Package Manager)
 
 ---
 
-## 🛠️ Prerequisites
+## 📦 Backend Setup
 
-- Node.js (v16+)
-- MongoDB (running locally on default port)
-- npm or yarn
+There are two backend services: `auth-service` and `registration-service`.
 
 ---
 
-## 🚀 Getting Started
+### 1️⃣ Auth Service (Login)
 
-### Step 1: Setup `auth-service` (Login Service)
+**Step 1:** Open a terminal and navigate to the `auth-service` directory.
 
-1. Open a terminal in the `auth-service` directory.
-2. Create a `.env` file in the root of the folder and paste the following:
+```bash
+cd auth-service
+Step 2: Create a .env file in the root of auth-service and add the following:
 
-   ```env
-   PORT=5003
-   MONGO_URI=mongodb://localhost:27017/authDb
-   JWT_SECRET=yourSuperSecretKey12345
-Install dependencies and start the server:
+PORT=5003
+MONGO_URI=mongodb://localhost:27017/authDb
+JWT_SECRET=yourSuperSecretKey12345
 
-bash
-Copy
-Edit
+Step 3: Install dependencies and start the development server.
 npm install
 npm run dev
-Step 2: Setup registration-service (Register Service)
-Open a new terminal in the registration-service directory.
 
-Create a .env file in the root of the folder and paste the following:
 
-env
-Copy
-Edit
+2️⃣ Registration Service
+Step 1: Open a new terminal and navigate to the registration-service directory.  or just open registration-service in terminal .
+
+Step 2: Create a .env file in the root of registration-service and add the following:
+
 PORT=5004
 MONGO_URI=mongodb://localhost:27017/authDb
-Install dependencies and start the server:
 
-bash
-Copy
-Edit
+Step 3: Install dependencies and start the development server.
+
 npm install
 npm run dev
-Step 3: Setup Frontend (React App)
-📍 The frontend code is located inside the registration-service folder.
 
-Open another terminal in the same registration-service directory.
+🖥️ Frontend Setup
 
-Install frontend dependencies and run the development server:
+Step 1: Open a terminal and navigate to the registration-service folder (React frontend resides here).
 
-bash
-Copy
-Edit
+cd registration-service
+Step 2: Install frontend dependencies and run the app.
+
 npm install
 npm run dev
-🖥️ Frontend will typically run on: http://localhost:5173
-🔐 Auth Service API runs on: http://localhost:5003
-📝 Registration API runs on: http://localhost:5004
+✅ Notes
 
-✅ Features
-User registration (with unique email validation)
+Ensure MongoDB is running locally before starting the backend services.
+All services use the same MongoDB database: authDb.
+The email field is stored in lowercase and trimmed, with uniqueness enforced.
+JWT is used for authentication.
 
-User login with JWT authentication
-
-MongoDB for persistent storage
-
-Clean folder structure and .env configuration
-
-React frontend integrated with backend APIs
 
