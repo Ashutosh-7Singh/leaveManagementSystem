@@ -1,0 +1,213 @@
+/* src/component/dashboard/user/UserPending.css */
+.user-pending-container {
+  padding: 2rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin: 1rem;
+  color: var(--text-color);
+}
+
+.user-pending-container h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+/* Add this to your UserPending.css */
+.user-pending-container {
+  position: relative; /* Needed for absolute positioning of child */
+  /* ... keep your existing container styles ... */
+}
+
+.apply-leave-btn {
+  position: absolute;
+  top: 2rem;    /* Same as container padding */
+  right: 2rem;  /* Same as container padding */
+  padding: 0.6rem 1.2rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 10; /* Ensures it stays above other elements */
+}
+
+/* For mobile responsiveness */
+@media (max-width: 768px) {
+  .apply-leave-btn {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+.apply-leave-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 1.5rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.apply-leave-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.pending-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.pending-table th {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.pending-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.pending-table tr:nth-child(even) {
+  background-color: var(--light-gray);
+}
+
+.pending-table tr:hover {
+  background-color: #e6f0ff;
+}
+
+.no-leaves {
+  text-align: center;
+  padding: 1rem;
+  color: var(--text-color);
+}
+
+.status-pending {
+  color: #ffc107;
+  font-weight: 500;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  max-width: 500px;
+}
+
+.modal-content h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.leave-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.leave-form select,
+.leave-form input[type="date"],
+.leave-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.leave-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.submit-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+.cancel-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+.submit-btn:hover,
+.cancel-btn:hover {
+  opacity: 0.9;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .pending-table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .modal-content {
+    margin: 0 1rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-pending-container {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .submit-btn,
+  .cancel-btn {
+    width: 100%;
+  }
+}

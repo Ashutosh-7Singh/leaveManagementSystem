@@ -1,0 +1,114 @@
+/* src/component/dashboard/user/UserApproved.css */
+.user-approved-container {
+  padding: 2rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin: 1rem;
+  color: var(--text-color);
+}
+
+.user-approved-container h2 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+
+/* Add this to your existing UserPending.css */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Remove the margin-bottom from apply-leave-btn since we're handling spacing in header-container */
+.apply-leave-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+  /* Remove the margin-bottom that was here */
+}
+
+/* Keep all your existing other styles... */
+
+.user-approved-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.user-approved-table th {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.user-approved-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-approved-table tr:nth-child(even) {
+  background-color: var(--light-gray);
+}
+
+.user-approved-table tr:hover {
+  background-color: #e6f0ff;
+}
+
+.status-approved {
+  color: #28a745;
+  font-weight: 500;
+}
+
+.no-leaves-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.remaining-leaves {
+  font-weight: 500;
+  color: var(--primary-dark);
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .user-approved-table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .user-approved-table th,
+  .user-approved-table td {
+    padding: 0.6rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-approved-container {
+    padding: 1rem;
+    margin: 0.5rem;
+  }
+  
+  .user-approved-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .no-leaves-message {
+    padding: 1rem;
+  }
+}
