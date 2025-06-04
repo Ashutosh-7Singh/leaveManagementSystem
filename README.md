@@ -65,6 +65,56 @@ npm install
 npm run dev
 ✅ Notes
 
+
+
+
+# Folder Structure Backend for .env 
+
+backend/
+├── auth-service/
+│   ├── node_modules/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   │   ├── leaveApplication.controller.js
+│   │   │   ├── leaves.controller.js
+│   │   │   ├── login.controller.js
+│   │   │   ├── logout.controller.js
+│   │   │   └── user.controller.js
+│   │   ├── middleware/
+│   │   │   ├── authMiddleware.js
+│   │   │   └── isAdminMiddleware.js
+│   │   ├── models/
+│   │   ├── routes/
+│   │   │   ├── leaveApplication.routes.js
+│   │   │   ├── leaves.routes.js
+│   │   │   ├── login.routes.js
+│   │   │   ├── logout.routes.js
+│   │   │   └── user.routes.js
+│   │   ├── utils/
+│   │   │   └── generateToken.js
+│   │   └── validations/
+│   │       └── auth.validation.js
+│   ├── .env
+│   ├── package-lock.json
+│   ├── package.json
+│   └── server.js
+│
+├── registration-service/
+│   ├── node_modules/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   └── validations/
+│   ├── .env
+│   ├── package-lock.json
+│   ├── package.json
+│   └── server.js
+│
+
+
 Ensure MongoDB is running locally before starting the backend services.
 All services use the same MongoDB database: authDb.
 The email field is stored in lowercase and trimmed, with uniqueness enforced.
