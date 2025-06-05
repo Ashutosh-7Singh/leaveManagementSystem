@@ -121,10 +121,7 @@ backend/
 │   └── server.js
 │
 
-
-
-
-
+```
 # ✅ **IMPORTANT NOTES**
 
 ## 🔹 **MongoDB must be running before starting the backend services.**
