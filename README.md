@@ -1,3 +1,10 @@
+# ✅ **IMPORTANT NOTES**
+## 🔹 **CORS Issue?**
+**If you encounter CORS errors, try opening the frontend in Incognito Mode in your browser.**
+
+## NOW START 
+
+
 # Leave Management System – Microservices-Based Setup
 
 This project is a **microservices-based Leave Management System** built using **Node.js**, **Express**, and **MongoDB**. It consists of two primary backend services and one frontend:
@@ -115,9 +122,20 @@ backend/
 │
 
 
-Ensure MongoDB is running locally before starting the backend services.
-All services use the same MongoDB database: authDb.
-The email field is stored in lowercase and trimmed, with uniqueness enforced.
-JWT is used for authentication.
 
 
+
+# ✅ **IMPORTANT NOTES**
+
+## 🔹 **MongoDB must be running before starting the backend services.**
+
+## 🔹 **Both services use the same database (`authDb`) for user consistency.**
+
+## 🔹 **JWT (JSON Web Tokens) are used for secure authentication.**
+
+## 🔹 **Email handling:**
+- **Stored in lowercase and trimmed.**
+- **Uniqueness is enforced to prevent duplicate accounts.**
+
+## 🔹 **CORS Issue?**
+**If you encounter CORS errors, try opening the frontend in Incognito Mode in your browser.**
