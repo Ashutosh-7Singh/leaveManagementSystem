@@ -20,7 +20,7 @@ This project is a **microservices-based Leave Management System** built using **
 Ensure you have the following installed:
 
 - Node.js (v16 or above recommended)
-- MongoDB (running locally on `mongodb://localhost:27017`)
+- MongoDB insalled  or  (running locally on `mongodb://localhost:27017`) 
 - npm (Node Package Manager)
 
 ---
