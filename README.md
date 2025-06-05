@@ -8,11 +8,11 @@
 # Leave Management System – Microservices-Based Setup
 
 This project is a **microservices-based Leave Management System** built using **Node.js**, **Express**, and **MongoDB**. It consists of two primary backend services and one frontend:
-
+```
 - `auth-service`: Handles user authentication (login).
 - `registration-service`: Handles user registration.
 - Frontend (React-based UI): Interfaces with both services.
-
+```
 ---
 
 ## 🔧 Prerequisites
