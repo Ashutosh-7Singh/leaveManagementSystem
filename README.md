@@ -8,11 +8,11 @@
 # Leave Management System – Microservices-Based Setup
 
 This project is a **microservices-based Leave Management System** built using **Node.js**, **Express**, and **MongoDB**. It consists of two primary backend services and one frontend:
-```
+
 - `auth-service`: Handles user authentication (login).
 - `registration-service`: Handles user registration.
 - Frontend (React-based UI): Interfaces with both services.
-```
+
 ---
 
 ## 🔧 Prerequisites
@@ -35,14 +35,16 @@ There are two backend services: `auth-service` and `registration-service`.
 
 **Step 1:** Open a terminal and navigate to the `auth-service` directory.
 
-```bash
+
 cd auth-service
 Step 2: Create a .env file in the root of auth-service and add the following:
 
+# .env for auth-service
+```
 PORT=5003
 MONGO_URI=mongodb://localhost:27017/authDb
 JWT_SECRET=yourSuperSecretKey12345
-
+```
 Step 3: Install dependencies and start the development server.
 npm install
 npm run dev
@@ -53,9 +55,11 @@ Step 1: Open a new terminal and navigate to the registration-service directory. 
 
 Step 2: Create a .env file in the root of registration-service and add the following:
 
+# .env for Registration Service
+```
 PORT=5004
 MONGO_URI=mongodb://localhost:27017/authDb
-
+```
 Step 3: Install dependencies and start the development server.
 
 npm install
