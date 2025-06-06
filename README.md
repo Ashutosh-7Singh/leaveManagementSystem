@@ -1,3 +1,10 @@
+# ✅ **IMPORTANT NOTES**
+## 🔹 **CORS Issue?**
+**If you encounter CORS errors, try opening the frontend in Incognito Mode in your browser.**
+
+## NOW START 
+
+
 # Leave Management System – Microservices-Based Setup
 
 This project is a **microservices-based Leave Management System** built using **Node.js**, **Express**, and **MongoDB**. It consists of two primary backend services and one frontend:
@@ -13,7 +20,7 @@ This project is a **microservices-based Leave Management System** built using **
 Ensure you have the following installed:
 
 - Node.js (v16 or above recommended)
-- MongoDB (running locally on `mongodb://localhost:27017`)
+- MongoDB insalled  or  (running locally on `mongodb://localhost:27017`) 
 - npm (Node Package Manager)
 
 ---
@@ -28,14 +35,16 @@ There are two backend services: `auth-service` and `registration-service`.
 
 **Step 1:** Open a terminal and navigate to the `auth-service` directory.
 
-```bash
+
 cd auth-service
 Step 2: Create a .env file in the root of auth-service and add the following:
 
+# .env for auth-service
+```
 PORT=5003
 MONGO_URI=mongodb://localhost:27017/authDb
 JWT_SECRET=yourSuperSecretKey12345
-
+```
 Step 3: Install dependencies and start the development server.
 npm install
 npm run dev
@@ -46,9 +55,11 @@ Step 1: Open a new terminal and navigate to the registration-service directory. 
 
 Step 2: Create a .env file in the root of registration-service and add the following:
 
+# .env for Registration Service
+```
 PORT=5004
 MONGO_URI=mongodb://localhost:27017/authDb
-
+```
 Step 3: Install dependencies and start the development server.
 
 npm install
@@ -67,7 +78,7 @@ npm run dev
 
 
 
-
+```
 # Folder Structure Backend for .env 
 
 backend/
@@ -114,10 +125,18 @@ backend/
 │   └── server.js
 │
 
+```
+# ✅ **IMPORTANT NOTES**
 
-Ensure MongoDB is running locally before starting the backend services.
-All services use the same MongoDB database: authDb.
-The email field is stored in lowercase and trimmed, with uniqueness enforced.
-JWT is used for authentication.
+## 🔹 **MongoDB must be running before starting the backend services.**
 
+## 🔹 **Both services use the same database (`authDb`) for user consistency.**
 
+## 🔹 **JWT (JSON Web Tokens) are used for secure authentication.**
+
+## 🔹 **Email handling:**
+- **Stored in lowercase and trimmed.**
+- **Uniqueness is enforced to prevent duplicate accounts.**
+
+## 🔹 **CORS Issue?**
+**If you encounter CORS errors, try opening the frontend in Incognito Mode in your browser.**
