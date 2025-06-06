@@ -13,6 +13,7 @@ const handleResponse = async (res) => {
   return data;
 };
 
+
 export const fetchLeavesByStatus = async (status) => {
   const res = await fetch(`${BASE_URL}/leave-applications/filter-by-status?statuses=${status}`, {
     credentials: 'include',

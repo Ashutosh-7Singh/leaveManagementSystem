@@ -51,7 +51,7 @@ exports.getAllLeaves = async (req, res) => {
 
 
 
-// Helper to calculate month difference
+// // Helper to calculate month difference
 const monthDiff = (startDate, endDate) => {
   return (
     (endDate.getFullYear() - startDate.getFullYear()) * 12 +
@@ -74,6 +74,19 @@ exports.getUserLeaves = async (req, res) => {
         balance = user[leave.type]; // sickLeaves or casualLeaves
       }
 
+
+      // if (leave.type === 'earnedLeaves') {
+      //   // Use a hardcoded end date for testing
+      //   const endDate = new Date('2027-06-05');
+
+      //   // FIXED: correct use of dateOfJoining and endDate
+      //   const earned = Math.floor(monthDiff(new Date(user.dateOfJoining), endDate));
+      //   console.log(`Earned months for ${user.name}:`, earned);
+
+      //   balance = Math.min(earned, 12);
+      // } else {
+      //   balance = user[leave.type]; // sickLeaves or casualLeaves
+      // }
       return {
         type: leave.type,
         balance,
@@ -86,3 +99,65 @@ exports.getUserLeaves = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+
+// // Helper to calculate month difference
+// const monthDiff = (startDate, endDate) => {
+//   return (
+//     (endDate.getFullYear() - startDate.getFullYear()) * 12 +
+//     (endDate.getMonth() - startDate.getMonth())
+//   );
+// };
+
+// exports.getUserLeaves = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.user.id);
+
+//  if (!user) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
+
+//     const leaves = await Leave.find();
+
+//     // Get current year and calculate April 1st of this year
+//        // 👉 Hardcoded current date for testing
+//     const now = new Date("2028-04-01"); // Change this to simulate different "today" dates
+//     // const now = new Date();
+//     const currentYear = now.getFullYear();
+//     const aprilFirst = new Date(`${currentYear}-04-01`);
+
+//     // If today is before April 1, consider the previous fiscal year
+//     if (now < aprilFirst) {
+//       aprilFirst.setFullYear(currentYear - 1);
+//     }
+
+//     const leaveSummary = leaves.map((leave) => {
+//       let balance = 0;
+
+//       if (leave.type === 'earnedLeaves') {
+//         const monthDifference = monthDiff(new Date(user.dateOfJoining), aprilFirst);
+//         // Only grant earned leaves if user joined more than 12 months before April 1
+//         balance = monthDifference >= 12 ? 12 : 0;
+//       } else if (leave.type === 'sickLeaves') {
+//         balance = 5;
+//       } else if (leave.type === 'casualLeaves') {
+//         balance = 7;
+//       }
+
+//       // Optionally, you can subtract leaves taken this year if you track that somewhere
+//       // For now, this gives the reset values as of April 1
+
+//       return {
+//         type: leave.type,
+//         balance,
+//         slots: leave.slots
+//       };
+//     });
+
+//     res.json({ user: user.name, leaves: leaveSummary });
+//   } catch (err) {
+//     console.error('Error in getUserLeaves:', err.message);
+//     res.status(500).json({ error: err.message });
+//   }
+// };

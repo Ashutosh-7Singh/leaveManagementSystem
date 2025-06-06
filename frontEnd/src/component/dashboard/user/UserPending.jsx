@@ -6,17 +6,12 @@ import {
 } from '../../services/userService';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/userPending.css'; // Add this import
-
-const leaveOptions = [
-  { type: 'sickLeaves', slots: ['full', 'firstHalf', 'secondHalf'] },
-  { type: 'earnedLeaves', slots: ['full', 'firstHalf', 'secondHalf'] },
-  { type: 'casualLeaves', slots: ['full', 'firstHalf', 'secondHalf'] },
-];
+import '../../styles/userPending.css';
 
 const UserPending = () => {
   const [leaves, setLeaves] = useState([]);
   const [leaveBalance, setLeaveBalance] = useState({});
+  const [leaveOptions, setLeaveOptions] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     leaveType: '',
@@ -27,28 +22,62 @@ const UserPending = () => {
 
   const navigate = useNavigate();
 
-  const loadData = async () => {
-    try {
-      const leaveBal = await getLeaveBalance();
-      const leaveBalObj = {};
-      leaveBal.leaves.forEach((item) => {
-        leaveBalObj[item.type] = item.balance;
-      });
-      setLeaveBalance(leaveBalObj);
+  // const loadData = async () => {
+  //   try {
+  //     const leaveBal = await getLeaveBalance();
 
-      const submitted = await getPendingLeaves();
-      const formattedLeaves = submitted.data.map((l) => ({
-        ...l,
-        status: 'Submitted',
-        balance: leaveBalObj[l.leaveType] ?? 'N/A',
-      }));
-      setLeaves(formattedLeaves);
-    // eslint-disable-next-line no-unused-vars
-    } catch (err) {
-      toast.error('Session expired. Redirecting to login...');
-      navigate('/login');
+  //     const leaveBalObj = {};
+  //     leaveBal.leaves.forEach((item) => {
+  //       leaveBalObj[item.type] = item.balance;
+  //     });
+
+  //     setLeaveBalance(leaveBalObj);
+  //     setLeaveOptions(leaveBal.leaves); // 👈 dynamic leaveOptions
+
+  //     const submitted = await getPendingLeaves();
+  //     const formattedLeaves = submitted.data.map((l) => ({
+  //       ...l,
+  //       status: 'Submitted',
+  //       balance: leaveBalObj[l.leaveType] ?? 'N/A',
+  //     }));
+  //     setLeaves(formattedLeaves);
+  //   // eslint-disable-next-line no-unused-vars
+  //   } catch (err) {
+  //     toast.error('Session expired. Redirecting to login...');
+  //     navigate('/login');
+  //   }
+  // };
+const loadData = async () => {
+  try {
+    const leaveBal = await getLeaveBalance();
+
+    if (!leaveBal?.leaves || leaveBal.leaves.length === 0) {
+      toast.warning('No leave types available. Please contact admin for leave creation.');
+      return;
     }
-  };
+
+    const leaveBalObj = {};
+    leaveBal.leaves.forEach((item) => {
+      leaveBalObj[item.type] = item.balance;
+    });
+
+    setLeaveBalance(leaveBalObj);
+    setLeaveOptions(leaveBal.leaves);
+
+    const submitted = await getPendingLeaves();
+    const formattedLeaves = submitted.data.map((l) => ({
+      ...l,
+      status: 'Submitted',
+      balance: leaveBalObj[l.leaveType] ?? 'N/A',
+    }));
+    setLeaves(formattedLeaves);
+  // eslint-disable-next-line no-unused-vars
+  } catch (err) {
+    toast.error('Session expired. Redirecting to login...');
+    navigate('/login');
+  }
+};
+
 
   useEffect(() => {
     loadData();
@@ -60,6 +89,14 @@ const UserPending = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // ✅ Validation for balance
+    const selectedLeave = leaveBalance[formData.leaveType];
+    if (selectedLeave === 0) {
+      toast.warning(`You have 0 ${formData.leaveType}. Cannot apply.`);
+      return;
+    }
+
     try {
       await applyLeave(formData);
       toast.success('Leave submitted successfully');
@@ -73,12 +110,12 @@ const UserPending = () => {
 
   return (
     <div className="user-pending-container">
-     <div className="header-container">
-      <h2>Pending Leaves</h2>
-      <button className="apply-leave-btn" onClick={() => setShowModal(true)}>
-        + Apply Leave
-      </button>
-    </div>
+      <div className="header-container">
+        <h2>Pending Leaves</h2>
+        <button className="apply-leave-btn" onClick={() => setShowModal(true)}>
+          + Apply Leave
+        </button>
+      </div>
 
       {showModal && (
         <div className="modal-overlay">
@@ -87,7 +124,12 @@ const UserPending = () => {
             <form className="leave-form" onSubmit={handleSubmit}>
               <label>
                 Leave Type:
-                <select name="leaveType" value={formData.leaveType} onChange={handleChange} required>
+                <select
+                  name="leaveType"
+                  value={formData.leaveType}
+                  onChange={handleChange}
+                  required
+                >
                   <option value="">Select</option>
                   {leaveOptions.map((opt) => (
                     <option key={opt.type} value={opt.type}>
@@ -96,28 +138,47 @@ const UserPending = () => {
                   ))}
                 </select>
               </label>
+
               <label>
                 Slot:
-                <select name="slot" value={formData.slot} onChange={handleChange} required>
+                <select
+                  name="slot"
+                  value={formData.slot}
+                  onChange={handleChange}
+                  required
+                >
                   <option value="">Select</option>
                   {formData.leaveType &&
                     leaveOptions
                       .find((opt) => opt.type === formData.leaveType)
-                      ?.slots.map((slot) => (
-                        <option key={slot} value={slot}>
-                          {slot}
+                      ?.slots.map((slotObj) => (
+                        <option key={slotObj.slot} value={slotObj.slot}>
+                          {slotObj.slot}
                         </option>
                       ))}
                 </select>
               </label>
+
               <label>
                 Date:
-                <input type="date" name="date" value={formData.date} onChange={handleChange} required />
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  required
+                />
               </label>
               <label>
                 Reason:
-                <textarea name="reason" value={formData.reason} onChange={handleChange} required />
+                <textarea
+                  name="reason"
+                  value={formData.reason}
+                  onChange={handleChange}
+                  required
+                />
               </label>
+
               <div className="form-actions">
                 <button type="submit" className="submit-btn">Submit</button>
                 <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>
@@ -166,6 +227,194 @@ const UserPending = () => {
 };
 
 export default UserPending;
+
+
+
+
+
+
+// import React, { useEffect, useState } from 'react';
+// import {
+//   getLeaveBalance,
+//   applyLeave,
+//   getPendingLeaves,
+// } from '../../services/userService';
+// import { toast } from 'react-toastify';
+// import { useNavigate } from 'react-router-dom';
+// import '../../styles/userPending.css'; // Add this import
+
+// const leaveOptions = [
+//   { type: 'sickLeaves', slots: ['full', 'firstHalf', 'secondHalf'] },
+//   { type: 'earnedLeaves', slots: ['full', 'firstHalf', 'secondHalf'] },
+//   { type: 'casualLeaves', slots: ['full', 'firstHalf', 'secondHalf'] },
+// ];
+
+// const UserPending = () => {
+//   const [leaves, setLeaves] = useState([]);
+//   const [leaveBalance, setLeaveBalance] = useState({});
+//   const [showModal, setShowModal] = useState(false);
+//   const [formData, setFormData] = useState({
+//     leaveType: '',
+//     slot: '',
+//     date: '',
+//     reason: '',
+//   });
+
+//   const navigate = useNavigate();
+
+//   const loadData = async () => {
+//     try {
+//       const leaveBal = await getLeaveBalance();
+//       const leaveBalObj = {};
+//       leaveBal.leaves.forEach((item) => {
+//         leaveBalObj[item.type] = item.balance;
+//       });
+//       setLeaveBalance(leaveBalObj);
+
+//       const submitted = await getPendingLeaves();
+//       const formattedLeaves = submitted.data.map((l) => ({
+//         ...l,
+//         status: 'Submitted',
+//         balance: leaveBalObj[l.leaveType] ?? 'N/A',
+//       }));
+//       setLeaves(formattedLeaves);
+//     // eslint-disable-next-line no-unused-vars
+//     } catch (err) {
+//       toast.error('Session expired. Redirecting to login...');
+//       navigate('/login');
+//     }
+//   };
+
+//   useEffect(() => {
+//     loadData();
+//   }, []);
+
+//   const handleChange = (e) => {
+//     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       await applyLeave(formData);
+//       toast.success('Leave submitted successfully');
+//       setShowModal(false);
+//       setFormData({ leaveType: '', slot: '', date: '', reason: '' });
+//       loadData();
+//     } catch (error) {
+//       toast.error(error.message);
+//     }
+//   };
+
+//   return (
+//     <div className="user-pending-container">
+//      <div className="header-container">
+//       <h2>Pending Leaves</h2>
+//       <button className="apply-leave-btn" onClick={() => setShowModal(true)}>
+//         + Apply Leave
+//       </button>
+//     </div>
+
+//       {showModal && (
+//         <div className="modal-overlay">
+//           <div className="modal-content">
+//             <h3>Apply for Leave</h3>
+//             <form className="leave-form" onSubmit={handleSubmit}>
+//               <label>
+//                 Leave Type:
+//                 <select name="leaveType" value={formData.leaveType} onChange={handleChange} required>
+//                   <option value="">Select</option>
+//                   {leaveOptions.map((opt) => (
+//                     <option key={opt.type} value={opt.type}>
+//                       {opt.type} (Remaining: {leaveBalance[opt.type] ?? 0})
+//                     </option>
+//                   ))}
+//                 </select>
+//               </label>
+//               <label>
+//                 Slot:
+//                 <select name="slot" value={formData.slot} onChange={handleChange} required>
+//                   <option value="">Select</option>
+//                   {formData.leaveType &&
+//                     leaveOptions
+//                       .find((opt) => opt.type === formData.leaveType)
+//                       ?.slots.map((slot) => (
+//                         <option key={slot} value={slot}>
+//                           {slot}
+//                         </option>
+//                       ))}
+//                 </select>
+//               </label>
+//               <label>
+//                 Date:
+//                 <input type="date" name="date" value={formData.date} onChange={handleChange} required />
+//               </label>
+//               <label>
+//                 Reason:
+//                 <textarea name="reason" value={formData.reason} onChange={handleChange} required />
+//               </label>
+//               <div className="form-actions">
+//                 <button type="submit" className="submit-btn">Submit</button>
+//                 <button type="button" className="cancel-btn" onClick={() => setShowModal(false)}>
+//                   Cancel
+//                 </button>
+//               </div>
+//             </form>
+//           </div>
+//         </div>
+//       )}
+
+//       <table className="pending-table">
+//         <thead>
+//           <tr>
+//             <th>Leave Type</th>
+//             <th>Remaining</th>
+//             <th>Date</th>
+//             <th>Slot</th>
+//             <th>Reason</th>
+//             <th>Status</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {leaves.length > 0 ? (
+//             leaves.map((leave, idx) => (
+//               <tr key={idx}>
+//                 <td>{leave.leaveType}</td>
+//                 <td>{leave.balance}</td>
+//                 <td>{leave.date?.split('T')[0]}</td>
+//                 <td>{leave.slot}</td>
+//                 <td>{leave.reason}</td>
+//                 <td className="status-pending">{leave.status}</td>
+//               </tr>
+//             ))
+//           ) : (
+//             <tr>
+//               <td colSpan="6" className="no-leaves">
+//                 No leaves applied yet.
+//               </td>
+//             </tr>
+//           )}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+// export default UserPending;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // import React, { useEffect, useState } from 'react';
 // import {

@@ -30,6 +30,8 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+
+
 // Route mounting
 app.use('/api/login', authRoutes);
 app.use('/api/logout', logoutRoutes);
@@ -47,7 +49,7 @@ const startServer = async () => {
       console.log(`Auth Service running on port ${PORT}`);
     });
   } catch (err) {
-    console.error('Failed to start server:', err.message);
+    console.error('Failed to start serverr:', err.message);
   }
 };
 
